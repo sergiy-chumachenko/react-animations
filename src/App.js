@@ -3,8 +3,8 @@ import {Transition} from "react-transition-group";
 
 import "./App.css";
 import List from "./components/List/List";
-import Modal from "./components/Modal/Modal";
 import Backdrop from "./components/Backdrop/Backdrop";
+import Modal from "./components/Modal/Modal";
 
 class App extends Component {
     state = {
@@ -24,7 +24,11 @@ class App extends Component {
             <div className="App">
                 <h1>React Animations</h1>
                 <button className="Button"
-                        onClick={() => this.setState(prevState => ({showBlock: !prevState.showBlock}))}>Toggle
+                        onClick={
+                            () => this.setState(prevState => ({showBlock: !prevState.showBlock}))
+                        }
+                >
+                    Toggle
                 </button>
                 <br/>
                 <Transition
@@ -33,23 +37,19 @@ class App extends Component {
                     in={this.state.showBlock}
                     timeout={500}>
                     {state => (
-                        <div style={{
-                            backgroundColor: 'red',
-                            width: 100,
-                            height: 100,
-                            margin: 'auto',
-                            transition: 'opacity 1s ease-out',
-                            opacity: state === 'exiting' ? 0 : 1
-                        }}></div>
+                        <div
+                            style={{
+                                backgroundColor: 'red',
+                                width: 100,
+                                height: 100,
+                                margin: 'auto',
+                                transition: 'opacity 1s ease-out',
+                                opacity: state === 'exiting' ? 0 : 1
+                            }}
+                        />
                     )}
                 </Transition>
-                <Transition
-                    mountOnEnter
-                    unmountOnExit
-                    in={this.state.modalIsOpen}
-                    timeout={300}>
-                    {state => (<Modal show={state} closed={this.closeModal}/>)}
-                </Transition>
+                <Modal show={this.state.modalIsOpen} closed={this.closeModal}/>
                 {this.state.modalIsOpen ? <Backdrop show/> : null}
                 <button onClick={this.showModal} className="Button">Open Modal</button>
                 <h3>Animating Lists</h3>
